@@ -87,6 +87,14 @@ def load_config(config_path: str) -> dict:
     with open(config_path) as f:
         cfg = yaml.safe_load(f)
 
+    # config.yaml から Cookie を読み込む（存在する場合）
+    config_yaml = Path(__file__).parent.parent / "config.yaml"
+    if config_yaml.exists():
+        with open(config_yaml) as f:
+            main_cfg = yaml.safe_load(f) or {}
+        if main_cfg.get("cookie") and not cfg.get("cookie"):
+            cfg["cookie"] = main_cfg["cookie"]
+
     # デフォルト値
     cfg.setdefault("adm", [])  # 空リスト = 全国対象
     cfg.setdefault("orbit", {"geo": True, "ngso": True})

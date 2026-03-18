@@ -2,7 +2,7 @@
 label: "AUS_全件"
 
 adm:
-  - J     # 日本のITUコード（ISO 3166の"JPN"ではなくITU独自の"J"）
+  - AUS     # 日本のITUコード（ISO 3166の"JPN"ではなくITU独自の"J"）
 
 orbit:
   geo: true
