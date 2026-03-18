@@ -1,0 +1,41 @@
+# GSO（静止軌道）ファイリング状態調査
+label: "GSO調査"
+
+# 対象国（ITUコード ※ISO 3166と異なる場合あり）
+# 日本=J、ドイツ=D、スペイン=E、フランス=F、英国=G、イタリア=I、スウェーデン=S
+# コメントを外して国を指定する。全行コメントのままなら全国対象。
+# adm:
+#   - J      # 日本
+#   - CHN    # 中国
+#   - USA    # 米国
+#   - RUS    # ロシア
+#   - KOR    # 韓国
+adm:
+  - J
+  - CHN
+  - USA
+  - RUS
+  - KOR
+
+orbit:
+  geo: true
+  ngso: false
+
+# 軌道位置フィルタ（東経/西経、度数）
+# 例：日本アーク（東経100〜150度）→ lon_from: 100, lon_to: 150
+lon_from: null
+lon_to: null
+
+# 周波数フィルタ（MHz単位）
+# 例：Ku帯 → freq_min: 10700, freq_max: 12750
+# 例：Ka帯 → freq_min: 17300, freq_max: 30000
+freq_min: null
+freq_max: null
+
+proc:
+  api: true
+  coord: true
+  notification: true
+
+latest_brific: true
+output: "results/survey_{label}_{date}.xlsx"

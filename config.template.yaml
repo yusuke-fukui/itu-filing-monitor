@@ -1,0 +1,13 @@
+# itu-filing-monitor 設定テンプレート
+# このファイルを config.yaml にコピーして実際の値を入力してください。
+# config.yaml は .gitignore に含まれているため git 管理外です。
+
+# ITU SpaceExplorer の Cookie（ブラウザの DevTools → Network → Cookie からコピー）
+cookie: "WT_FPC=...;BIGipServer...;TScb..."
+
+# Gmail 送信設定
+gmail_user: "your.gmail@gmail.com"
+gmail_app_password: "xxxx xxxx xxxx xxxx"  # Googleアカウント → アプリパスワード（スペースなしで入力）
+
+# 通知先メールアドレス
+notify_email: "your.kddi@kddi.com"

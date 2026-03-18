@@ -1,0 +1,47 @@
+name: ITU Filing Monitor
+
+on:
+  schedule:
+    # 毎週火・金 UTC 22:00 = 日本時間 翌朝7:00
+    # ITU SpaceExplorer は隔週更新のため週2回で十分
+    - cron: '0 22 * * 2,5'
+  workflow_dispatch:  # 手動実行も可能
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Restore state.json cache
+        uses: actions/cache@v4
+        with:
+          path: data/state.json
+          key: state-json-${{ github.run_id }}
+          restore-keys: |
+            state-json-
+
+      - name: Run monitor
+        env:
+          SPACEEXPLORER_COOKIE: ${{ secrets.SPACEEXPLORER_COOKIE }}
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          NOTIFY_EMAIL: ${{ secrets.NOTIFY_EMAIL }}
+        run: python src/monitor.py
+
+      - name: Save state.json as artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: state-json-${{ github.run_id }}
+          path: data/state.json

@@ -1,0 +1,17 @@
+# JPN 全ファイリング把握（変遷シート付き）
+label: "JPN_全件"
+
+adm:
+  - J     # 日本のITUコード（ISO 3166の"JPN"ではなくITU独自の"J"）
+
+orbit:
+  geo: true
+  ngso: true
+
+proc:
+  api: true
+  coord: true
+  notification: true
+
+latest_brific: false   # 全BR IFICを取得 → 変遷シートが生成される
+output: "results/survey_{label}_{date}.xlsx"

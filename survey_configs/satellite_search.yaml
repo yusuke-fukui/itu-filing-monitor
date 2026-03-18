@@ -1,0 +1,17 @@
+# 衛星名で逆引き検索
+label: "衛星名検索"
+
+# 対象国（省略すると全国対象）
+# adm:
+#   - USA
+
+# 検索したい衛星名（部分一致ではなく完全一致に注意）
+satellite_name:
+  - USASAT-NGSO-20
+
+orbit:
+  geo: true
+  ngso: true
+
+latest_brific: false
+output: "results/survey_{label}_{date}.xlsx"

@@ -1,0 +1,17 @@
+# CHN 全ファイリング把握（変遷シート付き）
+label: "CHN_全件"
+
+adm:
+  - CHN     # 日本のITUコード（ISO 3166の"CHN"ではなくITU独自の"CHN"）
+
+orbit:
+  geo: true
+  ngso: true
+
+proc:
+  api: true
+  coord: true
+  notification: true
+
+latest_brific: false   # 全BR IFICを取得 → 変遷シートが生成される
+output: "results/survey_{label}_{date}.xlsx"
