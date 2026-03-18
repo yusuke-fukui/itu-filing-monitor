@@ -4,3 +4,4 @@ __pycache__/
 *.pyc
 logs/
 data/email_preview.html
+.DS_Store
