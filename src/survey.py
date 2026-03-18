@@ -321,10 +321,10 @@ def write_sheet(ws, rows: list[dict], title: str):
             is_link = (key == "_pdf") and bool(val)
             is_center = key in ("adm", "_lon", "_proc", "d_rcv", "wic_no", "d_wic",
                                 "d_prot_eff_max", "d_inuse_max", "d_reg_limit_max")
-            if key in ("_freq_emi", "_freq_rcp"):
-                cell.alignment = cell.alignment.copy(wrapText=True)
             cell = ws.cell(row=r, column=col)
             _body(cell, val, even=even, link=is_link, center=is_center)
+            if key in ("_freq_emi", "_freq_rcp"):
+                cell.alignment = cell.alignment.copy(wrapText=True)
 
             # PDF列はハイパーリンク
             if is_link:
@@ -617,19 +617,9 @@ def main():
         rows = [r for r in rows if any(k.upper() in (r.get("sat_name") or "").upper() for k in args.filter)]
         log.info(f"フィルタ '{args.filter}' 適用後: {len(rows)}件")
 
-    if args.filter:
-        rows = [r for r in rows if any(k.upper() in (r.get("sat_name") or "").upper() for k in args.filter)]
-        log.info(f"フィルタ '{args.filter}' 適用後: {len(rows)}件")
     if not rows:
         log.warning("取得結果が0件でした。設定や認証を確認してください。")
         sys.exit(0)
-
-    if args.filter:
-        rows = [r for r in rows if any(k.upper() in (r.get("sat_name") or "").upper() for k in args.filter)]
-        log.info(f"フィルタ '{args.filter}' 適用後: {len(rows)}件")
-    if args.filter:
-        rows = [r for r in rows if any(k.upper() in (r.get("sat_name") or "").upper() for k in args.filter)]
-        log.info(f"フィルタ適用後: {len(rows)}件")
     build_excel(rows, cfg, output)
     log.info("Done.")
 

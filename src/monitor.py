@@ -201,10 +201,15 @@ def send_email(html: str, cfg: dict, dry_run: bool) -> None:
         log.info(f"プレビューを保存しました: {PREVIEW_FILE}")
         return
 
-    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
-        smtp.login(cfg["gmail_user"], cfg["gmail_app_password"])
-        smtp.sendmail(cfg["gmail_user"], cfg["notify_email"], msg.as_string())
-    log.info(f"メール送信完了: {subject}")
+    try:
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
+            smtp.login(cfg["gmail_user"], cfg["gmail_app_password"])
+            smtp.sendmail(cfg["gmail_user"], cfg["notify_email"], msg.as_string())
+        log.info(f"メール送信完了: {subject}")
+    except smtplib.SMTPAuthenticationError:
+        log.error("SMTP認証失敗 — GMAIL_USER / GMAIL_APP_PASSWORD を確認してください")
+    except smtplib.SMTPException as e:
+        log.error(f"SMTP送信エラー: {e}")
 
 
 # ── メイン ────────────────────────────────────────────────
