@@ -5,3 +5,4 @@ __pycache__/
 logs/
 data/email_preview.html
 .DS_Store
+results/*.xlsx
