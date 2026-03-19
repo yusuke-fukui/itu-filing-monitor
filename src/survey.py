@@ -404,14 +404,17 @@ def write_history_sheet(ws, rows: list[dict]):
 
     # ヘッダー
     hist_cols = [
-        ("ADM",        8),
+        ("ADM",           8),
         ("Satellite Name", 24),
-        ("手続き種別",  18),
-        ("改版",       10),
-        ("受理日",     12),
-        ("BR IFIC No.", 10),
-        ("掲載日",     12),
-        ("手続きステップ", 20),
+        ("手続き種別",    18),
+        ("改版",          10),
+        ("受理日",        12),
+        ("BR IFIC No.",   10),
+        ("掲載日",        12),
+        ("保護期限",      12),
+        ("BIU期限",       12),
+        ("登録期限",      12),
+        ("手続きステップ", 22),
     ]
     for col, (h, w) in enumerate(hist_cols, 1):
         _hdr(ws.cell(row=1, column=col), h)
@@ -426,17 +429,26 @@ def write_history_sheet(ws, rows: list[dict]):
         key = f"{r.get('adm','')}__{(r.get('sat_name') or '').strip()}"
         groups[key].append(r)
 
-    # 手続きステップのラベル
     def step_label(row):
         ssn = row.get("ssn_ref", "") or ""
-        if row.get("type_api"):      return f"① API ({ssn})"
-        if row.get("type_coord"):    return f"② CR ({ssn})"
+        if row.get("type_api"):          return f"① API ({ssn})"
+        if row.get("type_coord"):        return f"② CR ({ssn})"
         if row.get("type_notification"): return f"③ Notification ({ssn})"
+        if ssn == "RES49":               return f"⚠️ 期限延長 ({ssn})"
         return ssn
+
+    def parse_date(date_str):
+        if not date_str:
+            return ""
+        try:
+            from datetime import datetime
+            return datetime.strptime(date_str, "%d.%m.%Y").strftime("%Y%m%d")
+        except Exception:
+            return date_str
 
     r_idx = 2
     for key, group in sorted(groups.items()):
-        group_sorted = sorted(group, key=lambda x: x.get("d_rcv") or "")
+        group_sorted = sorted(group, key=lambda x: parse_date(x.get("d_rcv") or ""))
         for i, row in enumerate(group_sorted):
             even = (r_idx % 2 == 0)
             rev = row.get("pub_rev") or ""
@@ -448,17 +460,20 @@ def write_history_sheet(ws, rows: list[dict]):
                 row.get("d_rcv", ""),
                 row.get("wic_no"),
                 row.get("d_wic", ""),
+                row.get("d_prot_eff_max", ""),
+                row.get("d_inuse_max", ""),
+                row.get("d_reg_limit_max", ""),
                 step_label(row),
             ]
             for col, val in enumerate(vals, 1):
-                _body(ws.cell(row=r_idx, column=col), val,
-                      even=even, center=(col not in (2, 8)))
+                cell = ws.cell(row=r_idx, column=col)
+                _body(cell, val, even=even, center=(col not in (2, 11)))
             r_idx += 1
 
         # 衛星ごとに区切り線（最終行の下に薄いボーダー）
         if group_sorted:
             sep = Side(style="medium", color="1A5276")
-            for col in range(1, 9):
+            for col in range(1, 12):
                 c = ws.cell(row=r_idx - 1, column=col)
                 c.border = Border(
                     left=c.border.left, right=c.border.right,
