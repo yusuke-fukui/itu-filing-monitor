@@ -434,7 +434,7 @@ def write_history_sheet(ws, rows: list[dict]):
         if row.get("type_api"):          return f"① API ({ssn})"
         if row.get("type_coord"):        return f"② CR ({ssn})"
         if row.get("type_notification"): return f"③ Notification ({ssn})"
-        if ssn == "RES49":               return f"⚠️ 期限延長 ({ssn})"
+        if ssn == "RES49":               return "RES49"
         return ssn
 
     def parse_date(date_str):
