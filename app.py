@@ -42,25 +42,46 @@ st.set_page_config(
     layout="wide",
 )
 
+# ── ログイン認証 ──────────────────────────────────────────────
+def check_login():
+    if st.session_state.get("authenticated"):
+        return True
+    st.title("🛰 ITU Filing Tool")
+    st.subheader("🔐 ログイン")
+    with st.form("login_form"):
+        username = st.text_input("ユーザーID")
+        password = st.text_input("パスワード", type="password")
+        submitted = st.form_submit_button("ログイン")
+        if submitted:
+            if username == "kddi" and password == "kddi":
+                st.session_state["authenticated"] = True
+                st.rerun()
+            else:
+                st.error("IDまたはパスワードが正しくありません")
+    return False
+
+if not check_login():
+    st.stop()
+
 # ── サイドバー：Cookie設定 ───────────────────────────────────
 with st.sidebar:
     st.title("🛰 ITU Filing Tool")
     st.divider()
-    st.subheader("🔑 認証設定")
-    # Streamlit Secrets から自動読み込み（未設定の場合は手動入力）
-    default_cookie = st.secrets.get("SPACEEXPLORER_COOKIE", "") if hasattr(st, "secrets") else ""
-    cookie = st.text_area(
-        "SpaceExplorer Cookie",
-        value=default_cookie,
-        placeholder="BIGipServer...=...; TScb...=...;",
-        height=120,
-        help="ブラウザのDevTools → Network → Cookie の値を貼り付け",
-    )
-    if default_cookie:
-        st.caption("✅ Cookie は Secrets から自動読み込み済み")
+    # Streamlit Secrets から自動読み込み
+    cookie = st.secrets.get("SPACEEXPLORER_COOKIE", "") if hasattr(st, "secrets") else ""
+    if cookie:
+        st.caption("✅ SpaceExplorer 認証済み")
     else:
-        st.caption("Cookie の取得方法: SpaceExplorer を開き DevTools (⌘+⌥+I) → Network → Fetch/XHR → satellites?adm=... → Headers → Cookie")
+        cookie = st.text_area(
+            "🔑 SpaceExplorer Cookie",
+            placeholder="BIGipServer...=...; TScb...=...;",
+            height=120,
+            help="ブラウザのDevTools → Network → Cookie の値を貼り付け",
+        )
     st.divider()
+    if st.button("ログアウト"):
+        st.session_state["authenticated"] = False
+        st.rerun()
     st.caption("v1.0 | [GitHub](https://github.com/yusuke-fukui/itu-filing-monitor)")
 
 # ── タブ ─────────────────────────────────────────────────────
