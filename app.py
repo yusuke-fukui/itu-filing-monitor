@@ -47,13 +47,19 @@ with st.sidebar:
     st.title("🛰 ITU Filing Tool")
     st.divider()
     st.subheader("🔑 認証設定")
+    # Streamlit Secrets から自動読み込み（未設定の場合は手動入力）
+    default_cookie = st.secrets.get("SPACEEXPLORER_COOKIE", "") if hasattr(st, "secrets") else ""
     cookie = st.text_area(
         "SpaceExplorer Cookie",
+        value=default_cookie,
         placeholder="BIGipServer...=...; TScb...=...;",
         height=120,
         help="ブラウザのDevTools → Network → Cookie の値を貼り付け",
     )
-    st.caption("Cookie の取得方法: SpaceExplorer を開き DevTools (⌘+⌥+I) → Network → Fetch/XHR → satellites?adm=... → Headers → Cookie")
+    if default_cookie:
+        st.caption("✅ Cookie は Secrets から自動読み込み済み")
+    else:
+        st.caption("Cookie の取得方法: SpaceExplorer を開き DevTools (⌘+⌥+I) → Network → Fetch/XHR → satellites?adm=... → Headers → Cookie")
     st.divider()
     st.caption("v1.0 | [GitHub](https://github.com/yusuke-fukui/itu-filing-monitor)")
 
