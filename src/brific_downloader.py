@@ -196,10 +196,10 @@ def main():
                         help="ダウンロードするIFIC番号（複数可）")
     parser.add_argument("--list", type=int, metavar="YEAR",
                         help="指定年のIFIC一覧を表示")
-    parser.add_argument("--extract", action="store_true",
-                        help="ダウンロード後にzipを解凍する")
-    parser.add_argument("--outdir", type=Path, default=Path("brific_mdb"),
-                        help="保存先ディレクトリ（デフォルト: ./brific_mdb）")
+    parser.add_argument("--no-extract", action="store_true",
+                        help="解凍せずzipのまま保存する（デフォルトは自動解凍）")
+    parser.add_argument("--outdir", type=Path, default=Path(__file__).parent.parent / "mdb",
+                        help="保存先ディレクトリ（デフォルト: <project>/mdb）")
     args = parser.parse_args()
 
     if not args.list and not args.ific_numbers:
@@ -216,7 +216,7 @@ def main():
     for i, ific_no in enumerate(args.ific_numbers):
         if i > 0:
             time.sleep(1)  # サーバー負荷軽減
-        ok = process_ific(session, ific_no, args.outdir, args.extract)
+        ok = process_ific(session, ific_no, args.outdir, not args.no_extract)
         results[ific_no] = ok
 
     print()

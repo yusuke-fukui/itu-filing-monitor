@@ -34,6 +34,7 @@ from brific_downloader import (
     make_session as brific_session,
     resolve_zip_url,
 )
+from usage_guide_tab import show_usage_guide
 
 # ── ページ設定 ────────────────────────────────────────────────
 st.set_page_config(
@@ -85,7 +86,7 @@ with st.sidebar:
     st.caption("v1.0 | [GitHub](https://github.com/yusuke-fukui/itu-filing-monitor)")
 
 # ── タブ ─────────────────────────────────────────────────────
-tab1, tab2 = st.tabs(["📋 Filing Search", "📦 BRIFIC Download"])
+tab1, tab2, tab3 = st.tabs(["📋 Filing Search", "📦 BRIFIC Download", "📖 使い方"])
 
 
 # ════════════════════════════════════════════════════════════
@@ -358,3 +359,9 @@ with tab2:
                                     mime="application/octet-stream",
                                     key=f"mdb_{ific_no}_{mdb_name}",
                                 )
+
+# ════════════════════════════════════════════════════════════
+# Tab 3: 使い方
+# ════════════════════════════════════════════════════════════
+with tab3:
+    show_usage_guide()
