@@ -39,7 +39,7 @@ from usage_guide_tab import show_usage_guide
 # ── ページ設定 ────────────────────────────────────────────────
 st.set_page_config(
     page_title="ITU Filing Tool",
-    page_icon="🛰",
+    page_icon=None,
     layout="wide",
 )
 
@@ -47,8 +47,8 @@ st.set_page_config(
 def check_login():
     if st.session_state.get("authenticated"):
         return True
-    st.title("🛰 ITU Filing Tool")
-    st.subheader("🔐 ログイン")
+    st.title("ITU Filing Tool")
+    st.subheader("ログイン")
     with st.form("login_form"):
         username = st.text_input("ユーザーID")
         password = st.text_input("パスワード", type="password")
@@ -66,15 +66,15 @@ if not check_login():
 
 # ── サイドバー：Cookie設定 ───────────────────────────────────
 with st.sidebar:
-    st.title("🛰 ITU Filing Tool")
+    st.title("ITU Filing Tool")
     st.divider()
     # Streamlit Secrets から自動読み込み
     cookie = st.secrets.get("SPACEEXPLORER_COOKIE", "") if hasattr(st, "secrets") else ""
     if cookie:
-        st.caption("✅ SpaceExplorer 認証済み")
+        st.caption("SpaceExplorer 認証済み（Secrets）")
     else:
         cookie = st.text_area(
-            "🔑 SpaceExplorer Cookie",
+            "SpaceExplorer Cookie",
             placeholder="BIGipServer...=...; TScb...=...;",
             height=120,
             help="ブラウザのDevTools → Network → Cookie の値を貼り付け",
@@ -86,14 +86,14 @@ with st.sidebar:
     st.caption("v1.0 | [GitHub](https://github.com/yusuke-fukui/itu-filing-monitor)")
 
 # ── タブ ─────────────────────────────────────────────────────
-tab1, tab2, tab3 = st.tabs(["📋 衛星ファイリング検索", "📦 BRIFIC mdb ダウンローダー", "📖 使い方"])
+tab1, tab2, tab3 = st.tabs(["衛星ファイリング検索", "BRIFIC mdb ダウンローダー", "使い方"])
 
 
 # ════════════════════════════════════════════════════════════
 # Tab 1: Filing Search
 # ════════════════════════════════════════════════════════════
 with tab1:
-    st.header("📋 衛星ファイリング検索")
+    st.header("衛星ファイリング検索")
 
     col1, col2 = st.columns(2)
 
@@ -157,11 +157,11 @@ with tab1:
     )
 
     st.divider()
-    run_btn = st.button("🔍 検索実行", type="primary", use_container_width=True)
+    run_btn = st.button("検索実行", type="primary", use_container_width=True)
 
     if run_btn:
         if not cookie:
-            st.warning("⚠️ Cookie が未設定です。認証なしで試みます。")
+            st.warning("Cookie が未設定です。認証なしで試みます。")
 
         # config 組み立て
         adm_list = [a.strip() for a in adm_input.replace("、", ",").split(",") if a.strip()]
@@ -200,7 +200,7 @@ with tab1:
                 )]
                 st.info(f"フィルタ適用後: {len(rows)} 件")
 
-            st.success(f"✅ {len(rows)} 件取得しました")
+            st.success(f"{len(rows)} 件取得しました")
 
             # 結果テーブル表示
             import pandas as pd
@@ -234,7 +234,7 @@ with tab1:
 
             with open(tmp_path, "rb") as f:
                 st.download_button(
-                    label="📥 Excel ダウンロード",
+                    label="Excel ダウンロード",
                     data=f.read(),
                     file_name=output_filename,
                     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
@@ -246,9 +246,9 @@ with tab1:
 # Tab 2: BRIFIC Download
 # ════════════════════════════════════════════════════════════
 with tab2:
-    st.header("📦 BRIFIC mdb ダウンローダー")
+    st.header("BRIFIC mdb ダウンローダー")
     st.caption("ITU SNS Online から BRIFIC mdb (zip) をダウンロードします。認証不要。")
-    st.info("💾 **保存場所（ローカル実行時）:** `~/GitHub/itu-filing-monitor/mdb/ific{番号}/ific{番号}.mdb`　※Webアプリ利用時はブラウザのダウンロードフォルダに保存されます。")
+    st.info("**保存場所（ローカル実行時）:** `~/GitHub/itu-filing-monitor/mdb/ific{番号}/ific{番号}.mdb`　※Webアプリ利用時はブラウザのダウンロードフォルダに保存されます。")
 
     col_a, col_b = st.columns([2, 1])
 
@@ -259,12 +259,12 @@ with tab2:
             placeholder="例: 3067  または  3067 3066 3065",
         )
         do_extract = st.checkbox("ダウンロード後にzipを解凍してフォルダに保存", value=True)
-        dl_btn = st.button("📦 ダウンロード", type="primary")
+        dl_btn = st.button("ダウンロード", type="primary")
 
     with col_b:
         st.subheader("年別一覧表示")
         list_year_input = st.number_input("年", value=2026, min_value=1998, max_value=2030, step=1)
-        list_btn = st.button("📋 一覧表示")
+        list_btn = st.button("一覧表示")
 
     st.divider()
 
@@ -314,7 +314,7 @@ with tab2:
 
                 url = resolve_zip_url(session_b, ific_no)
                 if url is None:
-                    logs.append(f"  ✗ IFIC {ific_no}: zipURLが見つかりません")
+                    logs.append(f"  NG IFIC {ific_no}: zipURLが見つかりません")
                     results[ific_no] = None
                 else:
                     logs.append(f"  URL: `{url}`")
@@ -324,9 +324,9 @@ with tab2:
                         r.raise_for_status()
                         zip_bytes = r.content
                         results[ific_no] = (f"ific{ific_no}.zip", zip_bytes)
-                        logs.append(f"  ✅ IFIC {ific_no}: {len(zip_bytes):,} bytes")
+                        logs.append(f"  OK IFIC {ific_no}: {len(zip_bytes):,} bytes")
                     except Exception as e:
-                        logs.append(f"  ✗ IFIC {ific_no}: ダウンロード失敗 ({e})")
+                        logs.append(f"  NG IFIC {ific_no}: ダウンロード失敗 ({e})")
                         results[ific_no] = None
 
                 log_area.markdown("\n\n".join(logs))
@@ -346,7 +346,7 @@ with tab2:
                         st.success(f"IFIC {ific_no}: {len(data):,} bytes")
                     with col_dl2:
                         st.download_button(
-                            label=f"💾 {fname}",
+                            label=f"{fname}",
                             data=data,
                             file_name=fname,
                             mime="application/zip",
@@ -359,7 +359,7 @@ with tab2:
                             for mdb_name in mdb_names:
                                 mdb_data = zf.read(mdb_name)
                                 st.download_button(
-                                    label=f"💾 {mdb_name} (mdb)",
+                                    label=f"{mdb_name} (mdb)",
                                     data=mdb_data,
                                     file_name=mdb_name,
                                     mime="application/octet-stream",

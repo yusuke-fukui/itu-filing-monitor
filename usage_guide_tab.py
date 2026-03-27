@@ -8,7 +8,7 @@
 #
 # 既存コードにタブがある場合（例：tab1, tab2 が既に存在する場合）：
 #
-#   tab1, tab2, tab_guide = st.tabs(["既存タブ1", "既存タブ2", "📖 使い方"])
+#   tab1, tab2, tab_guide = st.tabs(["既存タブ1", "既存タブ2", "使い方"])
 #   with tab_guide:
 #       show_usage_guide()
 #
@@ -34,13 +34,13 @@ def show_usage_guide():
 def _show_inline_guide():
     """インライン版の使い方ガイド（usage_guide.mdが見つからない場合のフォールバック）"""
     
-    st.title("📖 使い方ガイド")
+    st.title("使い方ガイド")
     st.markdown("このページでは、ITU衛星ファイリングの **Appendix 4データをPDFで確認する方法** を説明します。")
     
     st.divider()
     
     # 必要なソフトウェア
-    st.header("🔧 必要なソフトウェア")
+    st.header("必要なソフトウェア")
     st.markdown("""
 | ソフトウェア | 用途 | 入手先 |
 |---|---|---|
@@ -53,18 +53,18 @@ def _show_inline_guide():
     # Step 1
     st.header("Step 1：mdbファイルをダウンロードする")
 
-    st.markdown("このWebアプリの **「📦 BRIFIC mdb ダウンローダー」** タブからダウンロードできます。")
+    st.markdown("このWebアプリの **「BRIFIC mdb ダウンローダー」** タブからダウンロードできます。")
     st.markdown("""
-1. 上部の **「📦 BRIFIC mdb ダウンローダー」** タブをクリック
+1. 上部の **「BRIFIC mdb ダウンローダー」** タブをクリック
 2. 対象のファイリングの **BR IFIC No.**（例: `3067`）を入力
 3. **「ダウンロード後にzipを解凍してフォルダに保存」** にチェックが入っていることを確認（デフォルトON）
-4. **「📦 ダウンロード」** をクリック
+4. **「ダウンロード」** をクリック
 5. zip と解凍済みmdbのダウンロードボタンが表示されるので、mdbをクリックして保存
 """)
-    st.info("💡 BR IFIC No. は「📋 衛星ファイリング検索」タブの結果テーブルの **BR IFIC No.** 列で確認できます。")
-    st.success("✅ mdbは自動解凍されます。`ificXXXX/` フォルダ内の `.mdb` ファイルをSAMで開いてください。")
+    st.info("BR IFIC No. は「衛星ファイリング検索」タブの結果テーブルの **BR IFIC No.** 列で確認できます。")
+    st.success("mdbは自動解凍されます。`ificXXXX/` フォルダ内の `.mdb` ファイルをSAMで開いてください。")
     
-    with st.expander("💡 IFIC番号と発行年の目安"):
+    with st.expander("IFIC番号と発行年の目安"):
         st.markdown("""
 | IFIC番号 | 発行年 |
 |---|---|
@@ -94,7 +94,7 @@ SAMの **「SRS convert」** タスクを使って、古い形式のmdbをv10に
 6. 変換先ファイル名を指定して実行 → `ificXXXX_v10.mdb` が生成される
 7. 生成されたv10のmdbを使って Step 2 へ進む
 """)
-    with st.expander("💡 バージョンの見分け方"):
+    with st.expander("バージョンの見分け方"):
         st.markdown("""
 - ファイル名に `_v10` が付いていれば **v10形式**（コンバート不要）
 - 付いていない場合はコンバートが必要な可能性がある
@@ -132,7 +132,7 @@ SAMの **「SRS convert」** タスクを使って、古い形式のmdbをv10に
 """)
     st.markdown("""
 4. ラジオボタンをクリックするとリストにファイリングが表示される
-5. **Adm列のフィルター**（🔤アイコン）で `CHN` などと入力して絞り込む
+5. **Adm列のフィルター**（フィルターアイコン）で `CHN` などと入力して絞り込む
 6. 対象ネットワークをダブルクリック → Publication画面に戻る
 """)
 
@@ -153,7 +153,7 @@ SAMの **「SRS convert」** タスクを使って、古い形式のmdbをv10に
     st.divider()
     
     # 注意事項
-    st.header("⚠️ 注意事項")
+    st.header("注意事項")
     st.warning("""
 - **`ificXXXX.mdb` はその号に掲載されたファイリングのみ収録**されています。特定のファイリングを探すには、上の表の `BR IFIC No.` 列を確認してください。
 - **全登録済みファイリングを横断検索したい場合は `srsXXXX.mdb`** が必要ですが、こちらはBRIFIC DVD/ISOにのみ収録されており、SNS Onlineからは入手できません。
@@ -161,7 +161,7 @@ SAMの **「SRS convert」** タスクを使って、古い形式のmdbをv10に
 """)
     
     # 関連リンク
-    st.header("🔗 関連リンク")
+    st.header("関連リンク")
     st.markdown("""
 - [SNS Online（mdb無料ダウンロード）](https://www.itu.int/sns/wic/demowic.html)
 - [BR Space Software ダウンロード](https://www.itu.int/en/ITU-R/software/Pages/space-network-software.aspx)
@@ -182,10 +182,10 @@ SAMの **「SRS convert」** タスクを使って、古い形式のmdbをv10に
 # 4. 既存のタブ定義を以下のように拡張する：
 #
 #    【変更前の例】
-#    tab1, tab2 = st.tabs(["🔍 ファイリング検索", "📊 サマリ"])
+#    tab1, tab2 = st.tabs(["ファイリング検索", "サマリ"])
 #
 #    【変更後】
-#    tab1, tab2, tab_guide = st.tabs(["🔍 ファイリング検索", "📊 サマリ", "📖 使い方"])
+#    tab1, tab2, tab_guide = st.tabs(["ファイリング検索", "サマリ", "使い方"])
 #    with tab_guide:
 #        show_usage_guide()
 #
