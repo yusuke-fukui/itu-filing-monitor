@@ -79,9 +79,7 @@ with st.sidebar:
     st.divider()
     # Streamlit Secrets から自動読み込み
     cookie = st.secrets.get("SPACEEXPLORER_COOKIE", "") if hasattr(st, "secrets") else ""
-    if cookie:
-        st.caption("SpaceExplorer 認証済み（Secrets）")
-    else:
+    if not cookie:
         cookie = st.text_area(
             "SpaceExplorer Cookie",
             placeholder="BIGipServer...=...; TScb...=...;",
