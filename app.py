@@ -92,7 +92,7 @@ with st.sidebar:
     if st.button("ログアウト"):
         st.session_state["authenticated"] = False
         st.rerun()
-    st.caption(f"v{__version__} | [GitHub](https://github.com/yusuke-fukui/itu-filing-monitor)")
+    st.caption(f"v{__version__}")
 
 # ── タブ ─────────────────────────────────────────────────────
 tab1, tab2, tab3 = st.tabs(["衛星ファイリング検索", "BRIFIC mdb ダウンローダー", "使い方"])
