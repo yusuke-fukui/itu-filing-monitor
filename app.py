@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-ITU Filing Tool - Streamlit Web App
+ITU Filing Monitor - Streamlit Web App
 survey.py と brific_downloader.py を統合したWebツール
 
 起動方法:
@@ -38,7 +38,7 @@ from usage_guide_tab import show_usage_guide
 
 # ── ページ設定 ────────────────────────────────────────────────
 st.set_page_config(
-    page_title="ITU Filing Tool",
+    page_title="ITU Filing Monitor",
     page_icon=None,
     layout="wide",
 )
@@ -47,7 +47,7 @@ st.set_page_config(
 def check_login():
     if st.session_state.get("authenticated"):
         return True
-    st.title("ITU Filing Tool")
+    st.title("ITU Filing Monitor")
     st.subheader("ログイン")
     with st.form("login_form"):
         username = st.text_input("ユーザーID")
@@ -66,7 +66,7 @@ if not check_login():
 
 # ── サイドバー：Cookie設定 ───────────────────────────────────
 with st.sidebar:
-    st.title("ITU Filing Tool")
+    st.title("ITU Filing Monitor")
     st.divider()
     # Streamlit Secrets から自動読み込み
     cookie = st.secrets.get("SPACEEXPLORER_COOKIE", "") if hasattr(st, "secrets") else ""
