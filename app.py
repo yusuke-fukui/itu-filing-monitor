@@ -86,14 +86,14 @@ with st.sidebar:
     st.caption("v1.0 | [GitHub](https://github.com/yusuke-fukui/itu-filing-monitor)")
 
 # ── タブ ─────────────────────────────────────────────────────
-tab1, tab2, tab3 = st.tabs(["📋 Filing Search", "📦 BRIFIC Download", "📖 使い方"])
+tab1, tab2, tab3 = st.tabs(["📋 衛星ファイリング検索", "📦 BRIFIC mdb ダウンローダー", "📖 使い方"])
 
 
 # ════════════════════════════════════════════════════════════
 # Tab 1: Filing Search
 # ════════════════════════════════════════════════════════════
 with tab1:
-    st.header("衛星ファイリング検索")
+    st.header("📋 衛星ファイリング検索")
 
     col1, col2 = st.columns(2)
 
@@ -145,7 +145,12 @@ with tab1:
 
         take = st.slider("1回の取得件数（take）", 100, 1000, 500, 100)
 
-    label = st.text_input("ラベル（Excel ファイル名に使用）", value="survey")
+    # ラベル自動生成
+    _adm_part = "_".join([a.strip() for a in adm_input.replace("、", ",").split(",") if a.strip()]) or "全国"
+    _orbit_part = ("GSO" if use_geo else "") + ("_NGSO" if use_ngso else "")
+    _orbit_part = _orbit_part.strip("_") or "全軌道"
+    _auto_label = f"{_adm_part}_{_orbit_part}"
+    label = st.text_input("ラベル（Excel ファイル名に使用・自動生成）", value=_auto_label)
     filter_words = st.text_input(
         "衛星名フィルタ（任意・スペース区切り）",
         placeholder="例: ACONNECT CHINASAT",
@@ -241,7 +246,7 @@ with tab1:
 # Tab 2: BRIFIC Download
 # ════════════════════════════════════════════════════════════
 with tab2:
-    st.header("BRIFIC mdb ダウンローダー")
+    st.header("📦 BRIFIC mdb ダウンローダー")
     st.caption("ITU SNS Online から BRIFIC mdb (zip) をダウンロードします。認証不要。")
 
     col_a, col_b = st.columns([2, 1])
@@ -252,7 +257,7 @@ with tab2:
             "IFIC番号（スペース区切りで複数可）",
             placeholder="例: 3067  または  3067 3066 3065",
         )
-        do_extract = st.checkbox("ダウンロード後にzipを解凍する", value=False)
+        do_extract = st.checkbox("ダウンロード後にzipを解凍してフォルダに保存", value=True)
         dl_btn = st.button("📦 ダウンロード", type="primary")
 
     with col_b:

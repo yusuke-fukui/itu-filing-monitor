@@ -52,21 +52,17 @@ def _show_inline_guide():
     
     # Step 1
     st.header("Step 1：mdbファイルをダウンロードする")
-    
-    st.markdown("`brific_downloader.py` を使って、IFIC番号を指定するだけでmdbをダウンロードできます。")
-    st.code("""# 依存ライブラリのインストール（初回のみ）
-pip install requests beautifulsoup4
 
-# IFIC番号を指定してダウンロード（zip形式で保存）
-python tools/brific_downloader.py 3067
-
-# 複数まとめて処理
-python tools/brific_downloader.py 3067 3066 3065
-
-# 特定年の一覧を確認
-python tools/brific_downloader.py --list 2026""", language="bash")
-    st.info("ダウンロードされたzipは `./brific_mdb/ific3067.zip` として保存されます。")
-    st.warning("⚠️ **zipは解凍しない** — SAMのBrowse時にフォルダを指定するため、zipのまま保持する。解凍不要。")
+    st.markdown("このWebアプリの **「📦 BRIFIC mdb ダウンローダー」** タブからダウンロードできます。")
+    st.markdown("""
+1. 上部の **「📦 BRIFIC mdb ダウンローダー」** タブをクリック
+2. 対象のファイリングの **BR IFIC No.**（例: `3067`）を入力
+3. **「ダウンロード後にzipを解凍してフォルダに保存」** にチェックが入っていることを確認（デフォルトON）
+4. **「📦 ダウンロード」** をクリック
+5. zip と解凍済みmdbのダウンロードボタンが表示されるので、mdbをクリックして保存
+""")
+    st.info("💡 BR IFIC No. は「📋 衛星ファイリング検索」タブの結果テーブルの **BR IFIC No.** 列で確認できます。")
+    st.success("✅ mdbは自動解凍されます。`ificXXXX/` フォルダ内の `.mdb` ファイルをSAMで開いてください。")
     
     with st.expander("💡 IFIC番号と発行年の目安"):
         st.markdown("""
