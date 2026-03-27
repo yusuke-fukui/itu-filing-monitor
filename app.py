@@ -10,6 +10,8 @@ survey.py と brific_downloader.py を統合したWebツール
 import io
 import sys
 import time
+
+__version__ = "1.0.0"
 import zipfile
 from pathlib import Path
 
@@ -90,7 +92,7 @@ with st.sidebar:
     if st.button("ログアウト"):
         st.session_state["authenticated"] = False
         st.rerun()
-    st.caption("v1.0 | [GitHub](https://github.com/yusuke-fukui/itu-filing-monitor)")
+    st.caption(f"v{__version__} | [GitHub](https://github.com/yusuke-fukui/itu-filing-monitor)")
 
 # ── タブ ─────────────────────────────────────────────────────
 tab1, tab2, tab3 = st.tabs(["衛星ファイリング検索", "BRIFIC mdb ダウンローダー", "使い方"])
