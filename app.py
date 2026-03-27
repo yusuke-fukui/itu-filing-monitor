@@ -43,6 +43,13 @@ st.set_page_config(
     layout="wide",
 )
 
+# GitHubアイコン・ツールバーを非表示
+st.markdown("""
+<style>
+[data-testid="stToolbar"] {visibility: hidden;}
+</style>
+""", unsafe_allow_html=True)
+
 # ── ログイン認証 ──────────────────────────────────────────────
 def check_login():
     if st.session_state.get("authenticated"):
