@@ -248,6 +248,7 @@ with tab1:
 with tab2:
     st.header("📦 BRIFIC mdb ダウンローダー")
     st.caption("ITU SNS Online から BRIFIC mdb (zip) をダウンロードします。認証不要。")
+    st.info("💾 **保存場所（ローカル実行時）:** `~/GitHub/itu-filing-monitor/mdb/ific{番号}/ific{番号}.mdb`　※Webアプリ利用時はブラウザのダウンロードフォルダに保存されます。")
 
     col_a, col_b = st.columns([2, 1])
 

@@ -9,34 +9,19 @@
 | ソフトウェア | 用途 | 入手先 |
 |---|---|---|
 | **BR Space Software (SAM/BRSIS)** | データ閲覧・PDF出力 | [ITU公式](https://www.itu.int/en/ITU-R/software/Pages/space-network-software.aspx) |
-| **brific_downloader.py** | mdbの自動ダウンロード | このリポジトリの `tools/` フォルダ |
 
 ---
 
 ## Step 1：mdbファイルをダウンロードする
 
-### BRIFIC mdb ダウンローダーを使う
+**「📦 BRIFIC mdb ダウンローダー」** タブを使ってダウンロードします。
 
-`brific_downloader.py` を使って、IFIC番号を指定するだけでmdbをダウンロードできます。
-
-```bash
-# 依存ライブラリのインストール（初回のみ）
-pip install requests beautifulsoup4
-
-# IFIC番号を指定してダウンロード（zip形式で保存）
-python tools/brific_downloader.py 3067
-
-# 複数まとめて処理
-python tools/brific_downloader.py 3067 3066 3065
-
-# 特定年の一覧を確認
-python tools/brific_downloader.py --list 2026
-```
-
-ダウンロードされたzipは `./brific_mdb/ific3067.zip` として保存されます。
-
-> **⚠️ zipは解凍しない**
-> SAMのBrowse時にフォルダを指定するため、zipのまま保持する。解凍不要。
+1. 上部の **「📦 BRIFIC mdb ダウンローダー」** タブをクリック
+2. 「IFIC番号（スペース区切りで複数可）」に対象の **BR IFIC No.** を入力（例: `3067`）
+   - BR IFIC No. は「📋 衛星ファイリング検索」の結果テーブルの **BR IFIC No.** 列で確認できます
+3. **「ダウンロード後にzipを解凍してフォルダに保存」** にチェックが入っていることを確認（デフォルトON）
+4. **「📦 ダウンロード」** をクリック
+5. 処理完了後、**「💾 ificXXXX.mdb (mdb)」** ボタンをクリックしてmdbを保存
 
 > **💡 IFIC番号と発行年の目安**
 > | IFIC番号 | 発行年 |
