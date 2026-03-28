@@ -11,7 +11,7 @@ import io
 import sys
 import time
 
-__version__ = "1.0.0"
+__version__ = "1.0.2"
 import zipfile
 from pathlib import Path
 
@@ -76,10 +76,10 @@ if not check_login():
 # ── サイドバー：Cookie設定 ───────────────────────────────────
 with st.sidebar:
     st.title("ITU Filing Monitor")
-    st.divider()
     # Streamlit Secrets から自動読み込み
     cookie = st.secrets.get("SPACEEXPLORER_COOKIE", "") if hasattr(st, "secrets") else ""
     if not cookie:
+        st.divider()
         cookie = st.text_area(
             "SpaceExplorer Cookie",
             placeholder="BIGipServer...=...; TScb...=...;",
